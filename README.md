@@ -24,6 +24,8 @@ Finally the scripts require that you set the $ABS environment variable.
     > export ABS=$PWD
     > export LUA_PATH="$LUA_PATH;$ABS/?.lua"
 
+Other alternative (If this doesn't work): https://github.com/udibr/headlines
+
 ## Constructing the Data Set
 
 The model is trained to perform title generation from the first line

@@ -17,13 +17,16 @@ import sys
 #@lint-avoid-python-3-compatibility-imports
 
 words_dict = set([l.split()[0]
-                  for l in open(sys.argv[2])])
+                  for l in open('/home/sk1846/namas/working_dir/train.article.dict')])
 
-for l in sys.stdin:
-    splits = l.strip().split("\t")
-    if len(splits) != 4:
-        continue
-    title_parse, article_parse, title, article = l.strip().split("\t")
+_train_file=open('/home/sk1846/namas/working_dir/valid.article_old.txt')
+
+for l in _train_file:
+#    splits = l.strip().split("\t")
+#    if len(splits) != 4:
+#        continue
+    #title_parse, article_parse, title, article = l.strip().split("\t")
+    article=l
     if sys.argv[1] == "src":
         print(article)
     elif sys.argv[1] == "trg":

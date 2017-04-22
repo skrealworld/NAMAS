@@ -13,7 +13,7 @@
 local encoder = {}
 
 function encoder.add_opts(cmd)
-   cmd:option('-encoderModel', 'bow', "The encoder model to use.")
+   cmd:option('-encoderModel', 'attenbow', "The encoder model to use.")
    cmd:option('-bowDim',      50, "Article embedding size.")
    cmd:option('-attenPool',    5, "Attention model pooling size.")
    cmd:option('-hiddenUnits', 1000, "Conv net encoder hidden units.")

@@ -5,10 +5,13 @@ import glob
 import nltk 
 import re
 import fnmatch 
-from bs4 import BeautifulSoup 
-import html2text
+#from bs4 import BeautifulSoup 
+#import html2text
 import pickle as pk
+import numpy as np 
+working_dir="/home/sk1846/namas/working_dir/"
 
+"""
 DUC_DIR=sys.argv[1] 
 SUM_DIR=sys.argv[2]
 
@@ -71,3 +74,48 @@ for article in train_data:
 		_train_file.write(article+'\n')
 
 _train_file.close()
+"""
+train_articles=open(working_dir+'train.article_old.txt','r')
+train_articles=train_articles.read() 
+train_articles=train_articles.split('\n')
+train_titles=open(working_dir+'train.title_old.txt','r') 
+train_titles=train_titles.read()
+train_titles=train_titles.split('\n') 
+
+random_idx=np.random.permutation(200)
+train_articles=np.take(train_articles,random_idx,axis=0)  
+train_titles=np.take(train_titles,random_idx,axis=0)
+
+split_idx=int(200*.75)
+
+train_article_txt=train_articles[:split_idx]
+valid_article_txt=train_articles[split_idx+1:]
+train_title_txt=train_titles[:split_idx]
+valid_title_txt=train_titles[split_idx+1:]
+
+
+_train_article_txt=open(working_dir+'train.article.txt','a')
+for _train_article in train_article_txt:
+	_train_article_txt.write(_train_article+'\n')	
+_train_article_txt.close()
+
+
+_valid_article_txt=open(working_dir+'valid.article.txt','a')
+for _valid_article in valid_article_txt:
+        _valid_article_txt.write(_valid_article+'\n')   
+_valid_article_txt.close()
+
+
+_train_title_txt=open(working_dir+'train.title.txt','a')
+for _train_title in train_title_txt:
+        _train_title_txt.write(_train_title+'\n')   
+_train_title_txt.close()
+
+
+_valid_title_txt=open(working_dir+'valid.title.txt','a')
+for _valid_title in valid_title_txt:
+        _valid_title_txt.write(_valid_title+'\n')
+_valid_title_txt.close()
+
+
+

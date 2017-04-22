@@ -36,11 +36,13 @@ local function main()
    local article_data = data.load_article(opt.articleDir)
 
    local valid_data = data.load_title(opt.validTitleDir, nil, tdata.dict)
+--   print("**** Valid data ***",valid_data)
    local valid_article_data =
       data.load_article(opt.validArticleDir, article_data.dict)
 
    -- Make main LM
    local train_data = data.init(tdata, article_data)
+ --  print("**** train data ***",train_data)
    local valid = data.init(valid_data, valid_article_data)
    local encoder_mlp = encoder.build(opt, train_data)
    local mlp = nnlm.create_lm(opt, tdata.dict, encoder_mlp,

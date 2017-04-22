@@ -12,21 +12,33 @@
 
 import sys
 from collections import Counter
+from itertools import izip
+import ipdb
 #@lint-avoid-python-3-compatibility-imports
 
 title_words = Counter()
 article_words = Counter()
-limit = int(sys.argv[3])
+limit = 3
 
-for l in open(sys.argv[1]):
-    splits = l.strip().split("\t")
-    if len(splits) != 4:
-        continue
-    title_parse, article_parse, title, article = l.strip().split("\t")
-    title_words.update(title.lower().split())
-    article_words.update(article.lower().split())
+_article_file=open('/home/sk1846/namas/working_dir/article.txt') 
+_title_file=open('/home/sk1846/namas/working_dir/title.txt')
 
-with open(sys.argv[2] + ".article.dict", "w") as f:
+for _article,_title in izip(_article_file,_title_file):
+	title=_title
+	article=_article
+	title_words.update(title.lower().split())
+	article_words.update(article.lower().split())
+
+#ipdb.set_trace()
+#for l in open(sys.argv[1]):
+#    splits = l.strip().split("\t")
+#    if len(splits) != 4:
+#        continue
+#    title_parse, article_parse, title, article = l.strip().split("\t")
+#    title_words.update(title.lower().split())
+#    article_words.update(article.lower().split())
+
+with open("/home/sk1846/namas/working_dir/train.article.dict", "w") as f:
     print >>f, "<unk>", 1e5
     print >>f, "<s>", 1e5
     print >>f, "</s>", 1e5
@@ -35,7 +47,7 @@ with open(sys.argv[2] + ".article.dict", "w") as f:
             break
         print >>f, word, count
 
-with open(sys.argv[2] + ".title.dict", "w") as f:
+with open("/home/sk1846/namas/working_dir/train.title.dict", "w") as f:
     print >>f, "<unk>", 1e5
     print >>f, "<s>", 1e5
     print >>f, "</s>", 1e5

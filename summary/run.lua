@@ -28,7 +28,7 @@ cutorch.setDevice(2)
 cmd:option('-modelFilename', '', 'Model to test.')
 cmd:option('-inputf',        '', 'Input article files. ')
 cmd:option('-nbest',      false, 'Write out the nbest list in ZMert format.')
-cmd:option('-length',         15, 'Maximum length of summary.')
+cmd:option('-length',         200, 'Maximum length of summary.')
 opt = cmd:parse(arg)
 
 -- Map the words from one dictionary to another.
