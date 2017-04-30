@@ -16,6 +16,7 @@ require('nngraph')
 --require('fbnn')
 require('cunn')
 require('sys')
+require('os')
 local utils = require('summary.util')
 
 local nnlm = {}
@@ -161,7 +162,7 @@ function nnlm:train(data, valid_data)
    -- Best loss seen yet.
    self.last_valid_loss = 1e9
    -- Train
-   for epoch = 1, self.opt.epochs do
+   for epoch = 1, self.opt.epochs do 
       data:reset()
       self:renorm_tables()
       self:run_valid(valid_data)
@@ -176,14 +177,15 @@ function nnlm:train(data, valid_data)
       sys.tic()
       while not data:is_done() do
          local input, target = data:next_batch(self.opt.miniBatchSize)
-         if data:is_done() then break end
+	 if data:is_done() then break end
 
          local out = self.mlp:forward(input)
-         local err = self.criterion:forward(out, target) * target:size(1)
+	 local err = self.criterion:forward(out, target) * target:size(1)
          local deriv = self.criterion:backward(out, target)
-
+--	 print('err',err)
          if not utils.isnan(err) then
-            loss = loss + err
+--	    print("err",err)
+	    loss = loss + err
             epoch_loss = epoch_loss + err
 
             self.mlp:zeroGradParameters()

@@ -55,10 +55,14 @@ local function flat_to_rc(v, indices, flat_index)
 end
 
 -- Helper: find kmax of vector.
-local function find_k_max(pool, mat)
-   local v = pool:forward(mat:t()):t()
-   local orig_indices = pool.indices:t():add(1)
-   return v:contiguous(), orig_indices
+--local function find_k_max(pool, mat)
+--   local v = pool:forward(mat:t()):t()
+--   local orig_indices = pool.indices:t():add(1)
+--   return v:contiguous(), orig_indices
+--end
+
+local function find_k_max(k, mat)
+   return mat:topk(2*k, true)
 end
 
 -- Use beam search to generate a summary of
@@ -100,8 +104,12 @@ function beam:generate(article, len)
 
    -- Find k-max columns of a matrix.
    -- Use 2*k in case some are invalid.
-   local pool = nn.TemporalKMaxPooling(2*K)
 
+   --require 'TemporalKMaxPooling'
+   --require 'nn'
+   --local pool = nn.TemporalKMaxPooling(2*K)
+   
+   
    -- Main loop of beam search.
    for i = 1, n do
       local cur_beam = hyps[i]:narrow(2, i+1, W)
@@ -147,7 +155,8 @@ function beam:generate(article, len)
 
       -- (2) Retain the K-best words for each hypothesis using GPU.
       -- This leaves a KxK matrix which we flatten to a K^2 vector.
-      local max_scores, mat_indices = find_k_max(pool, out:cuda())
+      --local max_scores, mat_indices = find_k_max(pool, out:cuda())
+      local max_scores, mat_indices = find_k_max(K, out)
       local flat = max_scores:view(max_scores:size(1)
                                       * max_scores:size(2)):float()
 

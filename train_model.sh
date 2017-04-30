@@ -13,12 +13,12 @@ mkdir -p $MDL_DIR
 th -i $ABS/summary/train.lua -titleDir  $OUT_DIR/train/title/ \
  -articleDir  $OUT_DIR/train/article/ \
  -modelFilename  $MDL_DIR/$2 \
- -miniBatchSize  64 \
- -embeddingDim  64 \
- -bowDim  200 \
+ -miniBatchSize  512 \
+ -embeddingDim  200 \
+ -bowDim  100 \
  -hiddenSize  64 \
- -epochs  20 \
- -learningRate 0.1 \
+ -epochs  5 \
+ -learningRate 0.05 \
  -validArticleDir  $OUT_DIR/valid.filter/article/ \
  -validTitleDir  $OUT_DIR/valid.filter/title/ \
  -window  $WINDOW \

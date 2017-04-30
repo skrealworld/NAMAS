@@ -17,7 +17,6 @@ require('nngraph')
 local nnlm = require('summary.nnlm')
 local data = require('summary.data')
 local encoder  = require('summary.encoder')
-
 cmd = torch.CmdLine()
 cmd:text()
 cmd:text()
@@ -45,6 +44,7 @@ local function main()
  --  print("**** train data ***",train_data)
    local valid = data.init(valid_data, valid_article_data)
    local encoder_mlp = encoder.build(opt, train_data)
+
    local mlp = nnlm.create_lm(opt, tdata.dict, encoder_mlp,
                               opt.bowDim, article_data.dict)
 

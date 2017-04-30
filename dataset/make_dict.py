@@ -20,15 +20,16 @@ title_words = Counter()
 article_words = Counter()
 limit = 3
 
-_article_file=open('/home/sk1846/namas/working_dir/article.txt') 
-_title_file=open('/home/sk1846/namas/working_dir/title.txt')
+
+_article_file=open('/home/sk1846/namas/working_dir/train.article.txt') 
+_title_file=open('/home/sk1846/namas/working_dir/train.title.txt')
+
 
 for _article,_title in izip(_article_file,_title_file):
-	title=_title
-	article=_article
-	title_words.update(title.lower().split())
-	article_words.update(article.lower().split())
-
+	#article_words=_article.split()
+	article_words.update(_article.lower().split())
+	article_words.update(_title.lower().split())
+	#title_words.update(_title.lower().split())
 #ipdb.set_trace()
 #for l in open(sys.argv[1]):
 #    splits = l.strip().split("\t")
@@ -51,7 +52,8 @@ with open("/home/sk1846/namas/working_dir/train.title.dict", "w") as f:
     print >>f, "<unk>", 1e5
     print >>f, "<s>", 1e5
     print >>f, "</s>", 1e5
-    for word, count in title_words.most_common():
+    #for word, count in title_words.most_common():
+    for word,count in article_words.most_common():
         if count < limit:
             break
         print >>f, word, count

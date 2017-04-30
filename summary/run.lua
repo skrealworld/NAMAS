@@ -13,7 +13,7 @@
 require('torch')
 require('nn')
 require('sys')
-
+require('os')
 local nnlm = require('summary.nnlm')
 local encoder = require('summary.encoder')
 local beam = require('summary.beam_search')
@@ -23,12 +23,13 @@ cmd = torch.CmdLine()
 
 beam.addOpts(cmd)
 
-cutorch.setDevice(2)
+cutorch.setDevice(1)
 
 cmd:option('-modelFilename', '', 'Model to test.')
 cmd:option('-inputf',        '', 'Input article files. ')
 cmd:option('-nbest',      false, 'Write out the nbest list in ZMert format.')
 cmd:option('-length',         200, 'Maximum length of summary.')
+--cmd:option('-textidx',    1,'Index of the text to be processed')
 opt = cmd:parse(arg)
 
 -- Map the words from one dictionary to another.
@@ -61,6 +62,8 @@ local function main()
 
    local dict_map = sync_dicts(adict, tdict)
    local sent_file = assert(io.open(opt.inputf))
+  -- sent_file=sent_file.split('\n')[opt.textidx]
+   --local sent_file=opt.inputf
    local len = opt.length
    local W = mlp.window
    opt.window = W
